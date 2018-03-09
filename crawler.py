@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from telegram.ext import Updater, CommandHandler
 import logging
 import config
+from datetime import datetime, time
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -94,6 +95,12 @@ def main():
                           port=config.port,
                           url_path=config.token)
     updater.bot.set_webhook(config.bot_url + config.token)
+
+    now = datetime.now()
+    now_time = now.time()
+    job_queue = updater.job_queue
+    if time(5, 30) <= now_time <= time(7, 30):
+        job = job_queue.run_once(post)
     updater.idle()
 
 
