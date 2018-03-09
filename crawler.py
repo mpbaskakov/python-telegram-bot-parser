@@ -93,7 +93,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                           port=config.port,
                           url_path=config.token)
-    updater.bot.set_webhook("https://botautopost.herokuapp.com/" + config.token)
+    updater.bot.set_webhook(config.bot_url + config.token)
     updater.idle()
 
 
