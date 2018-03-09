@@ -67,6 +67,7 @@ def start():
 
 
 def post(bot, update):
+    print('post')
     get_matches = crawler()
     today_matches = {}
     for match in get_matches:
