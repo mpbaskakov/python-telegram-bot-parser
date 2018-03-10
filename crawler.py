@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from telegram.ext import Updater, CommandHandler
 import logging
 import config
+import dateparser
 from datetime import datetime, time
 
 
@@ -40,6 +41,8 @@ def get_match_info(html):
     tournament = ' '.join(tournament.split())
     match_time = soup.find('time').contents[0]
     match_time = ' '.join(match_time.split())
+    match_time = dateparser.parse(match_time)
+    match_time = str(match_time. strftime('%H:%M %d/%m/%y')
     try:
         team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
     except AttributeError:
