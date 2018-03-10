@@ -42,7 +42,7 @@ def get_match_info(html):
     match_time = soup.find('time').contents[0]
     match_time = ' '.join(match_time.split())
     match_time = dateparser.parse(match_time)
-    match_time = str(match_time. strftime('%H:%M %d/%m/%y')
+    match_time = str(match_time. strftime('%H:%M %d/%m/%y'))
     try:
         team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
     except AttributeError:
