@@ -100,7 +100,7 @@ def main():
     now_time = now.time()
     job_queue = updater.job_queue
     if time(5, 30) <= now_time <= time(7, 30):
-        job = job_queue.run_once(post)
+        job = job_queue.run_once(post, 0)
     updater.idle()
 
 
