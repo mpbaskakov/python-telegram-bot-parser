@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler
 import logging
 import config
 import dateparser
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -42,6 +42,8 @@ def get_match_info(html):
     match_time = soup.find('time').contents[0]
     match_time = ' '.join(match_time.split())
     match_time = dateparser.parse(match_time)
+    if datetime.now()+timedelta(hours=24) <= match_time:
+        return None
     match_time = str(match_time. strftime('%H:%M %d/%m/%y'))
     try:
         team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
@@ -85,7 +87,7 @@ def post(bot, update):
             today_matches[match[0]].append(match[1:])
         else:
             today_matches[match[0]] = [match[1:]]
-    today_matches_markdown = str()
+    today_matches_markdown = str('Матчи на ближайшие сутки: \n\n')
     for match in today_matches.items():
         matches = str()
         for m in match[1]:
