@@ -38,8 +38,8 @@ def get_match_info(html):
     match_info = []
     tournament = soup.find('div', class_='duel__wrapper container').find('a').contents[0]
     tournament = ' '.join(tournament.split())
-    time = soup.find('time').contents[0]
-    time = ' '.join(time.split())
+    match_time = soup.find('time').contents[0]
+    match_time = ' '.join(match_time.split())
     try:
         team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
     except AttributeError:
@@ -48,8 +48,14 @@ def get_match_info(html):
         team2 = soup.find('div', class_='matche__team matche__team--right').find('span', class_='visible-xs--inline-block').contents[0]
     except AttributeError:
         team2 = 'TBD'
+    tbd1 = soup.find('div', class_='duel__team duel__team--left ').find('h2').contents[0]
+    tbd2 = soup.find('div', class_='duel__team duel__team--right ').find('h2').contents[0]
+    if tbd1 == 'TBD':
+        team1 = 'TBD'
+    if tbd2 == 'TBD':
+        team2 = 'TBD'
     match_info.append(tournament)
-    match_info.append(time)
+    match_info.append(match_time)
     match_info.append(team1)
     match_info.append(team2)
     return match_info
