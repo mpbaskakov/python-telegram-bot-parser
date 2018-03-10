@@ -43,7 +43,7 @@ def get_match_info(html):
     match_time = ' '.join(match_time.split())
     match_time = dateparser.parse(match_time)
     if datetime.now()+timedelta(hours=24) <= match_time:
-        return None
+        return
     match_time = str(match_time. strftime('%H:%M %d/%m/%y'))
     try:
         team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
@@ -79,7 +79,6 @@ def start():
 
 
 def post(bot, update):
-    print('post')
     get_matches = crawler()
     today_matches = {}
     for match in get_matches:
