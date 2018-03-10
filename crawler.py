@@ -81,6 +81,7 @@ def start():
 def post(bot, update):
     get_matches = crawler()
     today_matches = {}
+    print(get_matches)
     for match in get_matches:
         if match[0] in today_matches:
             today_matches[match[0]].append(match[1:])
