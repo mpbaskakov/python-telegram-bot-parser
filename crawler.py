@@ -7,7 +7,6 @@ import config
 import dateparser
 from datetime import datetime, time, timedelta
 
-
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
@@ -30,34 +29,35 @@ def get_all_links(html):
     urls = []
     for url in matches:
         u = url.find('a').get('href')
-        urls.append('https://www.cybersport.ru' + u)
+        urls.append(config.url[:26] + u)
     return urls
 
 
 def get_match_info(html):
     soup = BeautifulSoup(html, 'lxml')
     match_info = []
+    tag_team = 'matche__team matche__team--'
+    tag_span = 'visible-xs--inline-block'
+    tag_duel = 'duel__team duel__team--'
     tournament = soup.find('div', class_='duel__wrapper container').find('a').contents[0]
     tournament = ' '.join(tournament.split())
     match_time = soup.find('time').contents[0]
     match_time = ' '.join(match_time.split())
     match_time = dateparser.parse(match_time)
-    if datetime.now()+timedelta(hours=24) <= match_time:
+    if datetime.now() + timedelta(hours=24) <= match_time:
         return
-    match_time = str(match_time. strftime('%H:%M'))
+    match_time = str(match_time.strftime('%H:%M'))
     try:
-        team1 = soup.find('div', class_='matche__team matche__team--left').find('span', class_='visible-xs--inline-block').contents[0]
+        team1 = soup.find('div', class_=tag_team+'left').find('span', class_=tag_span).contents[0]
     except AttributeError:
         team1 = 'TBD'
     try:
-        team2 = soup.find('div', class_='matche__team matche__team--right').find('span', class_='visible-xs--inline-block').contents[0]
+        team2 = soup.find('div', class_=tag_team+'right').find('span', class_=tag_span).contents[0]
     except AttributeError:
         team2 = 'TBD'
-    tbd1 = soup.find('div', class_='duel__team duel__team--left ').find('h2').contents[0]
-    tbd2 = soup.find('div', class_='duel__team duel__team--right ').find('h2').contents[0]
-    if tbd1 == 'TBD':
+    if soup.find('div', class_=tag_duel+'left ').find('h2').contents[0]:
         team1 = 'TBD'
-    if tbd2 == 'TBD':
+    if soup.find('div', class_=tag_duel+'right ').find('h2').contents[0]:
         team2 = 'TBD'
     match_info.append(tournament)
     match_info.append(match_time)
@@ -71,7 +71,7 @@ def crawler():
     today_matches = []
     for l in links:
         today_matches.append(get_match_info(get_html(l)))
-    today_matches =  [x for x in today_matches if x is not None]
+    today_matches = [x for x in today_matches if x is not None]
     return today_matches
 
 
@@ -107,8 +107,7 @@ def main():
                           url_path=config.token)
     updater.bot.set_webhook(config.bot_url + config.token)
 
-    now = datetime.now()
-    now_time = now.time()
+    now_time = datetime.now().time()
     job_queue = updater.job_queue
     if time(5, 30) <= now_time <= time(7, 30):
         job = job_queue.run_once(post, 0)
