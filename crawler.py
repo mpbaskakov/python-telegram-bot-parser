@@ -55,9 +55,9 @@ def get_match_info(html):
         team2 = soup.find('div', class_=tag_team+'right').find('span', class_=tag_span).contents[0]
     except AttributeError:
         team2 = 'TBD'
-    if soup.find('div', class_=tag_duel+'left ').find('h2').contents[0]:
+    if soup.find('div', class_=tag_duel+'left ').find('h2').contents[0] == 'TBD':
         team1 = 'TBD'
-    if soup.find('div', class_=tag_duel+'right ').find('h2').contents[0]:
+    if soup.find('div', class_=tag_duel+'right ').find('h2').contents[0] == 'TBD':
         team2 = 'TBD'
     match_info.append(tournament)
     match_info.append(match_time)
