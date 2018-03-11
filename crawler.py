@@ -29,7 +29,7 @@ def get_all_links(html):
     urls = []
     for url in matches:
         u = url.find('a').get('href')
-        urls.append(config.url[:26] + u)
+        urls.append(config.url[:25] + u)
     return urls
 
 
@@ -68,7 +68,6 @@ def get_match_info(html):
 
 def crawler():
     links = get_all_links(get_html(config.url))
-    print(links)
     today_matches = []
     for l in links:
         today_matches.append(get_match_info(get_html(l)))
@@ -82,6 +81,9 @@ def start():
 
 def post(bot, update):
     get_matches = crawler()
+    if not get_matches:
+        bot.send_message(chat_id=config.chat_id, text='В следующие сутки матчей не будет')
+        return
     today_matches = {}
     for match in get_matches:
         if match[0] in today_matches:
