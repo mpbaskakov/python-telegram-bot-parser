@@ -68,6 +68,7 @@ def get_match_info(html):
 
 def crawler():
     links = get_all_links(get_html(config.url))
+    print(links)
     today_matches = []
     for l in links:
         today_matches.append(get_match_info(get_html(l)))
