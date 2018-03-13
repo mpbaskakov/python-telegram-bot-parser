@@ -90,7 +90,7 @@ def post(bot, update):
     for match in today_matches.items():
         matches = str()
         for m in match[1]:
-            matches += '&#8226' + m[0] + ' ' + m[1] + ' vs ' + m[2] + '\n'
+            matches += m[0] + ' ' + m[1] + ' vs ' + m[2] + '\n'
         today_matches_markdown += '*' + match[0] + '*:\n' + matches + "\n"
     bot.send_message(chat_id=config.chat_id, text=today_matches_markdown, parse_mode='Markdown')
 
