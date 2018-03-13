@@ -112,7 +112,7 @@ def main():
 
     now_time = datetime.now().time()
     job_queue = updater.job_queue
-    if time(5, 30) <= now_time <= time(7, 30):
+    if time(5, 50) <= now_time <= time(6, 20):
         job = job_queue.run_once(post, 0)
     updater.idle()
 
