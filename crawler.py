@@ -90,7 +90,7 @@ def post(bot, update):
             today_matches[match[0]].append(match[1:])
         else:
             today_matches[match[0]] = [match[1:]]
-    today_matches_markdown = str('Матчи на ближайшие сутки ({}): \n\n'.format(datetime.today().strftime("%d.%m")))
+    today_matches_markdown = str('Расписание матчей на ближайшие 24 часа: \n\n')
     for match in today_matches.items():
         matches = str()
         for m in match[1]:
