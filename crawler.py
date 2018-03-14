@@ -36,8 +36,6 @@ def get_all_links(html):
 def get_match_info(html):
     soup = BeautifulSoup(html, 'lxml')
     match_info = []
-    tag_team = 'matche__team matche__team--'
-    tag_span = 'visible-xs--inline-block'
     tag_duel = 'duel__team duel__team--'
     tournament = soup.find('div', class_='duel__wrapper container').find('a').contents[0]
     tournament = ' '.join(tournament.split())
@@ -47,14 +45,8 @@ def get_match_info(html):
     if datetime.now() + timedelta(hours=24) <= match_time:
         return
     match_time = str(match_time.strftime('%H:%M'))
-    if soup.find('div', class_=tag_duel+'left ').find('h2').contents[0] == 'TBD':
-        team1 = 'TBD'
-    else:
-        team1 = soup.find('div', class_=tag_duel+'left ').find('h2').contents[0]
-    if soup.find('div', class_=tag_duel+'right ').find('h2').contents[0] == 'TBD':
-        team2 = 'TBD'
-    else:
-        team2 = soup.find('div', class_=tag_duel+'right ').find('h2').contents[0]
+    team1 = soup.find('div', class_=tag_duel+'left ').find('h2').contents[0]
+    team2 = soup.find('div', class_=tag_duel+'right ').find('h2').contents[0]
     match_info.append(tournament)
     match_info.append(match_time)
     match_info.append(team1)
@@ -90,7 +82,7 @@ def post(bot, update):
     for match in today_matches.items():
         matches = str()
         for m in match[1]:
-            matches += u"\u2022 " + m[0] + ' ' + m[1] + ' vs ' + m[2] + '\n'
+            matches += u"\u2022" + m[0] + ' ' + m[1] + ' vs ' + m[2] + '\n'
         today_matches_markdown += '*' + match[0] + '*:\n' + matches + "\n"
     bot.send_message(chat_id=config.chat_id, text=today_matches_markdown, parse_mode='Markdown')
 
