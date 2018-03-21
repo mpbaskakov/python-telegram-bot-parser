@@ -93,6 +93,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("post", post))
     dp.add_error_handler(error)
+    updater.start_polling()
     now_time = datetime.now().time()
     job_queue = updater.job_queue
     job = job_queue.run_once(post, 0)
