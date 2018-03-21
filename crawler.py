@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from telegram.ext import Updater, CommandHandler
 import logging
 import config
-import dateparser
+#import dateparser
 from datetime import datetime, time, timedelta
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -41,10 +41,10 @@ def get_match_info(html):
     tournament = ' '.join(tournament.split())
     match_time = soup.find('time').contents[0]
     match_time = ' '.join(match_time.split())
-    match_time = dateparser.parse(match_time)
-    if datetime.now() + timedelta(hours=24) <= match_time:
-        return
-    match_time = str(match_time.strftime('%H:%M'))
+    #match_time = dateparser.parse(match_time)
+    #if datetime.now() + timedelta(hours=24) <= match_time:
+        #return
+    #match_time = str(match_time.strftime('%H:%M'))
     team1 = soup.find('div', class_=tag_duel+'left ').find('h2').contents[0]
     team2 = soup.find('div', class_=tag_duel+'right ').find('h2').contents[0]
     match_info.append(tournament)
@@ -96,7 +96,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                           port=config.port,
                           url_path=config.token)
-    updater.bot.set_webhook(config.bot_url + config.token)
+    updater.bot.set_webhook(config.bot_url)
 
     now_time = datetime.now().time()
     job_queue = updater.job_queue
