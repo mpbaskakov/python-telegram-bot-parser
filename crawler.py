@@ -96,9 +96,8 @@ def main():
     now_time = datetime.now().time()
     job_queue = updater.job_queue
     job = job_queue.run_once(post, 0)
-    return
-    #updater.start_polling()
-    #updater.idle()
+    updater.start_polling()
+    updater.idle()
 
 
 if __name__ == '__main__':
